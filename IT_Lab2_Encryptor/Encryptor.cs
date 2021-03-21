@@ -3,32 +3,34 @@ using System.Collections;
 
 namespace IT_Lab2_Encryptor
 {
-    class Encryptor
+    public class Encryptor
     {
-        private int[] _toXor =
+        public int[] ToXor { get; } =
         {
             33, 13
         };
 
-        public int[] ToXor => _toXor;
+
+        public BitArray GeneratedKey { get; private set; }
 
         public BitArray Encrypt(BitArray key, BitArray data)
         {
             Console.WriteLine("Key: {0}", key.ToBitString());
-            BitArray generatedKey = GenerateKey(key, data.Count);
-            Console.WriteLine("Generated key: {0}", generatedKey.ToBitString());
-            return data.Xor(generatedKey);
+            GeneratedKey = GenerateKey(key, data.Count);
+            Console.WriteLine("Generated key: {0}", GeneratedKey.ToBitString());
+            return data.Xor(GeneratedKey);
         }
 
         private BitArray GenerateKey(BitArray key, int requiredLen)
         {
             LSFR register = new LSFR(key, ToXor);
             BitArray generatedKey = new BitArray(requiredLen);
-            for (int i = requiredLen - 1; i > 0; i--)
+            for (int i = requiredLen - 1; i >= 0; i--)
             {
                 generatedKey[i] = register.GetNext();
             }
 
+            Console.WriteLine(register.Counter);
             return generatedKey;
         }
     }
@@ -36,6 +38,7 @@ namespace IT_Lab2_Encryptor
     class LSFR
     {
         private int[] _toXor;
+        public int Counter { get; private set; }
 
         public int[] ToXor
         {
@@ -45,10 +48,10 @@ namespace IT_Lab2_Encryptor
 
         private BitArray _data;
 
-        public BitArray Data
+        private BitArray Data
         {
             get => _data;
-            private set => _data = value;
+            set => _data = value;
         }
 
         public LSFR(BitArray initializeData, int[] toXor)
@@ -64,14 +67,16 @@ namespace IT_Lab2_Encryptor
             {
                 lastElement ^= Data[ToXor[i] - 1];
             }
-           // Console.WriteLine("Before SHift: {0}", Data.ToBitString());
-            Data = Data.LeftShift(1);
+
+            //Console.WriteLine("Before Shift: {0}", Data.ToBitString());
+            Data.LeftShift(1);
             Data[0] = lastElement;
             //Console.WriteLine("After Shift: {0}", Data.ToBitString());
         }
 
         public bool GetNext()
         {
+            Counter++;
             bool result = Data[Data.Count - 1];
             Iterate();
             return result;
