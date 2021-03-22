@@ -17,7 +17,7 @@ namespace IT_Lab2_Encryptor
         public static string ToBitString(this BitArray bits)
         {
             var sb = new StringBuilder();
-
+            
             for (int i = bits.Count - 1; i >= 0; i--)
             {
                 char c = bits[i] ? '1' : '0';

@@ -1,19 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using IT_Lab2_Encryptor;
 using Microsoft.Win32;
 
@@ -24,7 +13,6 @@ namespace IT_Lab2_Form
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
@@ -40,20 +28,28 @@ namespace IT_Lab2_Form
                 BitArray result = encryptor.Encrypt(key, toEncrypt);
                 GenKeyBitsBox.Text = encryptor.GeneratedKey.ToBitString();
                 CipherBitsBox.Text = result.ToBitString();
+                Console.WriteLine("Completed!");
             }
         }
 
         private bool IsFieldsFilled()
         {
+            if (InputBitsBox.Text.Length == 0 && KeyBox.Text.Length == 0)
+            {
+                return false;
+            }
+
             if (KeyBox.Text.Length != 33)
             {
-                MessageBox.Show("The key length must be 33 bits.", "Incorrect key", MessageBoxButton.OK,
+                MessageBox.Show("The key length must be 33 bits.", "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return false;
             }
 
             if (InputBitsBox.Text.Length == 0)
             {
+                MessageBox.Show("Input field is empty.", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
                 return false;
             }
 
@@ -62,17 +58,25 @@ namespace IT_Lab2_Form
 
         private void OpenFile(object sender, RoutedEventArgs e)
         {
+            ClearFields();
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.InitialDirectory = "D:\\Test";
             if (fileDialog.ShowDialog() == true)
             {
                 byte[] fileText = System.IO.File.ReadAllBytes(fileDialog.FileName);
-                InputBitsBox.Text = new BitArray(fileText).ToBitString();
+                InputBitsBox.Text = new BitArray(fileText).ToBitString();   
             }
         }
 
         private void SaveFile(object sender, RoutedEventArgs e)
         {
+            if (CipherBitsBox.Text.Length == 0)
+            {
+                MessageBox.Show("Nothing to save.", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
             SaveFileDialog fileDialog = new SaveFileDialog();
             fileDialog.InitialDirectory = "D:\\Test";
             if (fileDialog.ShowDialog() == true)
@@ -100,5 +104,19 @@ namespace IT_Lab2_Form
                 textBox.SelectionLength = 0;
             }
         }
+
+
+        private void ClearFields()
+        {
+            InputBitsBox.Clear();
+            GenKeyBitsBox.Clear();
+            CipherBitsBox.Clear();
+        }
+
+        private void CloseProgram(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+        
     }
 }

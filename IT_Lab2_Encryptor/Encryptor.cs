@@ -17,25 +17,25 @@ namespace IT_Lab2_Encryptor
         {
             Console.WriteLine("Key: {0}", key.ToBitString());
             GeneratedKey = GenerateKey(key, data.Count);
-            Console.WriteLine("Generated key: {0}", GeneratedKey.ToBitString());
+            //Console.WriteLine("Generated key: {0}", GeneratedKey.ToBitString());
             return data.Xor(GeneratedKey);
         }
 
         private BitArray GenerateKey(BitArray key, int requiredLen)
         {
-            LSFR register = new LSFR(key, ToXor);
+            LFSR register = new LFSR(key, ToXor);
             BitArray generatedKey = new BitArray(requiredLen);
             for (int i = requiredLen - 1; i >= 0; i--)
             {
                 generatedKey[i] = register.GetNext();
             }
 
-            Console.WriteLine(register.Counter);
+            Console.WriteLine("Amount of iterations: {0}", register.Counter);
             return generatedKey;
         }
     }
 
-    class LSFR
+    class LFSR
     {
         private int[] _toXor;
         public int Counter { get; private set; }
@@ -54,7 +54,7 @@ namespace IT_Lab2_Encryptor
             set => _data = value;
         }
 
-        public LSFR(BitArray initializeData, int[] toXor)
+        public LFSR(BitArray initializeData, int[] toXor)
         {
             ToXor = toXor;
             Data = new BitArray(initializeData);
@@ -68,7 +68,7 @@ namespace IT_Lab2_Encryptor
                 lastElement ^= Data[ToXor[i] - 1];
             }
 
-            //Console.WriteLine("Before Shift: {0}", Data.ToBitString());
+            //Console.WriteLine(Data.ToBitString());
             Data.LeftShift(1);
             Data[0] = lastElement;
             //Console.WriteLine("After Shift: {0}", Data.ToBitString());
