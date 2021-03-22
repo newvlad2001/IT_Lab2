@@ -117,6 +117,10 @@ namespace IT_Lab2_Form
         {
             Application.Current.Shutdown();
         }
-        
+
+        private void ClearButtPressed(object sender, RoutedEventArgs e)
+        {
+            ClearFields();
+        }
     }
 }
