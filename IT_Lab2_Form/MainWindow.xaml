@@ -21,8 +21,10 @@
                  TextChanged="KeyBox_TextChanged" MaxLength="33" />
         <Button x:Name="StartButt" Content="Start" Margin="0,51,218,0" Click="StartButt_Click"
                 HorizontalAlignment="Right" Width="68" Height="20" VerticalAlignment="Top" />
-        <Button Content="Clear" Click="ClearButtPressed" HorizontalAlignment="Left" Margin="620,51,0,0"
-                VerticalAlignment="Top" />
+        <Button Click="ClearButtPressed" Height="20" Width="20" HorizontalAlignment="Left" Margin="620,51,0,0"
+                VerticalAlignment="Top">
+            <Image Source="assets/refresh_icon.png" />
+        </Button>
         <Menu Height="19" VerticalAlignment="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Open File..." Click="OpenFile" />

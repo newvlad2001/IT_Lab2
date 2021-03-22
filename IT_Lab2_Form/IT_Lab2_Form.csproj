@@ -10,4 +10,11 @@
       <ProjectReference Include="..\IT_Lab2_Encryptor\IT_Lab2_Encryptor.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="assets\reload.png" />
+      <None Remove="assets\refresh_icon.png" />
+      <Resource Include="assets\refresh_icon.png" />
+      <None Remove="assets\refresh_icon.svg" />
+    </ItemGroup>
+
 </Project>
