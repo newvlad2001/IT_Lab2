@@ -64,6 +64,7 @@ namespace IT_Lab2_Form
             if (fileDialog.ShowDialog() == true)
             {
                 byte[] fileText = System.IO.File.ReadAllBytes(fileDialog.FileName);
+                Array.Reverse(fileText);
                 InputBitsBox.Text = new BitArray(fileText).ToBitString();   
             }
         }
@@ -82,7 +83,9 @@ namespace IT_Lab2_Form
             if (fileDialog.ShowDialog() == true)
             {
                 string name = fileDialog.FileName;
-                System.IO.File.WriteAllBytes(name, CipherBitsBox.Text.StringToBitArray().ToByteArray());
+                byte[] result = CipherBitsBox.Text.StringToBitArray().ToByteArray();
+                Array.Reverse(result);
+                System.IO.File.WriteAllBytes(name, result);
             }
         }
 
