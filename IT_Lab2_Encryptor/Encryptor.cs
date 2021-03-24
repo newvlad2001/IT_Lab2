@@ -5,7 +5,7 @@ namespace IT_Lab2_Encryptor
 {
     public class Encryptor
     {
-        public int[] ToXor { get; } =
+        public static int[] ToXor { get; } =
         {
             33, 13
         };

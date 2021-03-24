@@ -16,6 +16,7 @@ namespace IT_Lab2_Form
         public MainWindow()
         {
             InitializeComponent();
+            KeyBox.MaxLength = Encryptor.ToXor[0];
         }
 
         private void StartButt_Click(object sender, RoutedEventArgs e)
@@ -39,9 +40,10 @@ namespace IT_Lab2_Form
                 return false;
             }
 
-            if (KeyBox.Text.Length != 33)
+            if (KeyBox.Text.Length != Encryptor.ToXor[0])
             {
-                MessageBox.Show("The key length must be 33 bits.", "Error", MessageBoxButton.OK,
+                string msg = "The key length must be " + Encryptor.ToXor[0] + " bits.";
+                MessageBox.Show(msg, "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return false;
             }
